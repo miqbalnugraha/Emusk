@@ -1,0 +1,285 @@
+<tbody>
+                  <?php $no=1; ?>
+                  @foreach ($sarana as $data)
+                <tr>
+                  <td>{{ $no++ }}</td>
+                  <td>{{$data->identitas}}</td>
+                  <td>{{$data->nama_sarana}}</td>
+                  <td>{{$data->nama_operator}}</td>
+                  <td>{{$data->nama_lokasi}}</td>
+                  <td>@if( $data->wilayah == 1 )Wilayah I @else Wilayah II @endif</td>
+                  <td>{{$data->jenis_pengujian}}</td>
+                  <td>@if ($data->tgl_pengujian != NULL && $data->tgl_pengujian != '1970-01-01' ) {{date('d-m-Y', strtotime($data->tgl_pengujian));}} @endif</td>
+                  <td>
+                    @if($data->status_uji==1)
+                      <label class="badge badge-success">Lulus</label>
+                    @elseif($data->status_uji==2)
+                      <label class="badge badge-danger">Tidak Lulus</label>
+                    @elseif($data->status_uji==3)
+                      <label class="badge badge-warning">Pending</label>
+                    @else
+                      <label class="badge badge-info">Belum Diuji</label>
+                    @endif
+                  </td>
+                  <td><button type="button" class="btn btn-block btn-info btn-sm" data-toggle="modal" data-target="#modal-detail-{{$data->id_uji}}">Detail</button> </td>
+                  <td>
+                    <div class="input-group mb-3">
+                      <div class="input-group-prepend">
+                        <button type="button" class="btn btn-flat btn-primary btn-sm dropdown-toggle" data-toggle="dropdown">
+                          Action
+                        </button>
+                        <div class="dropdown-menu">
+                          <a class="btn btn-sm dropdown-item" data-toggle="modal" id="smallButton" data-target="#edit{{$data->id_uji}}" title="Edit">Edit</a>
+                          <a class="btn btn-sm dropdown-item" data-toggle="modal" id="smallButton" data-target="#delete{{$data->id_uji}}" title="Delete">Delete</a>
+                        </div>
+                      </div>
+                    <!-- /btn-group -->
+                    </div>
+                </td>
+                </tr>
+
+                <div class="modal fade" id="modal-detail-{{$data->id_uji}}">
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h4 class="modal-title">Detail Data</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                      <div class="modal-body">
+                        <div class="form-group row">
+                          <label for="identitas" class="col-sm-4 col-form-label">Identitas Sarana</label>
+                          <div class="col-sm-4">
+                            <input class="form-control" id="identitas" value="{{$data->identitas}}" disabled>
+                          </div>
+                        </div>
+                        <div class="form-group row">
+                          <label for="status_uji" class="col-sm-4 col-form-label">Status Uji</label>
+                          <div class="col-sm-4">
+                            <input class="form-control" id="status_uji" value="{{$data->status_uji}}" disabled>
+                          </div>
+                        </div>
+                        <div class="form-group row">
+                          <label for="ket" class="col-sm-4 col-form-label">Keterangan</label>
+                          <div class="col-sm-6">
+                            <textarea class="form-control" rows="3" id="ket" disabled>{{$data->nama_ket}}</textarea>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-default float-right" data-dismiss="modal">Close</button>
+                      </div>
+                    </div>
+                    <!-- /.modal-content -->
+                  </div>
+                  <!-- /.modal-dialog -->
+                </div>
+                <!-- /.modal -->
+                @endforeach
+                </tbody>
+
+                    <!-- /.MODAL DELETE -->
+   @foreach ( $sarana as $data )
+    <div class="modal fade" id="delete{{$data->id_uji}}" tabindex="-1" role="dialog" aria-labelledby="smallModelLabel" aria-hidden="true">
+      <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title text-center">Delete Confirmation</h4>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>        
+            <div class="modal-body">
+                <h5 class="text-center">Hapus data uji sarana {{$data->identitas}}?</h5>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <a href="/inputData/delete/{{$data->id_uji}}" type="button" class="btn btn-danger">Yes, delete</a>
+            </div>
+        </form>
+        </div>
+        <!-- /.modal-content -->
+      </div>
+      <!-- /.modal-dialog -->
+    </div>
+    <!-- /.modal -->
+    @endforeach 
+
+    <!-- /.MODAL EDIT -->
+    @foreach ( $sarana as $edit )
+    <div class="modal fade" id="edit{{$edit->id_uji}}" >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title">Edit Data</h4>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form method="POST" action="/inputData/update/{{$edit->id_uji}}" enctype="multipart/form-data">
+              @csrf
+              <div class="card-body">
+                <div class="form-group">                  
+                  <input type="hidden" class="form-control" name="user" id="user" value="{{$edit->user}}">
+                </div>
+                                
+                <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="identitas">Identitas Sarana</label>
+                    <input type="text" class="form-control @error('identitas') is-invalid @enderror" name="identitas" id="identitas" value="{{$edit->identitas}}">
+                      @error('identitas')
+                          <div class="text-danger">{{ $message }}</div>
+                      @enderror
+                  </div>
+                  
+                  <div class="form-group">
+                    <label>Jenis Sarana</label>
+                    <select name="jenis_sarana" id="jenis_sarana" class="form-control select2">
+                      <option value="">Pilih Jenis Sarana</option>
+                      @foreach ($jenis_sarana as $data)
+                        <option value="{{$data->id_sarana}}" @if($edit->jenis_sarana==$data->id_sarana) selected @endif>{{$data->nama_sarana}}</option>
+                      @endforeach
+                    </select>
+                    @error('jenis_sarana')
+                        <div class="btn-sm btn-danger">{{ $message }}</div>
+                    @enderror
+                  </div>
+
+                  <div class="form-group">
+                    <label>Lokasi</label>
+                    <select name="lokasi" id="lokasi" class="form-control select2">
+                      <option value="">Pilih Lokasi</option>
+                      @foreach ($lokasi as $data)
+                        <option value="{{$data->id_lokasi}}" @if($edit->lokasi==$data->id_lokasi) selected @endif>{{$data->nama_lokasi}}</option>
+                      @endforeach
+                    </select>
+                    @error('lokasi')
+                        <div class="btn-sm btn-danger">{{ $message }}</div>
+                    @enderror
+                  </div>
+
+                  <div class="form-group">
+                    <label>Tanggal Pengujian</label>
+                      <div class="input-group date" id="datetimepicker4" data-target-input="nearest">
+                          <input value="{{$edit->tgl_pengujian}}" name="tgl_pengujian" id="tgl_pengujian" type="text" class="form-control datetimepicker-input @error('tgl_pengujian') is-invalid @enderror" data-target="#datetimepicker4"/>
+                          <div class="input-group-append" data-target="#datetimepicker4" data-toggle="datetimepicker">
+                              <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                          </div>
+                      </div>
+                      @error('tgl_pengujian')
+                          <div class="btn-sm btn-danger">{{ $message }}</div>
+                      @enderror
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label>Operator</label>
+                    <select name="operator" id="operator" class="form-control select2">
+                      <option value="">Pilih Operator</option>
+                      @foreach ($operator as $data)
+                        <option value="{{$data->id_operator}}" @if($edit->operator==$data->id_operator) selected @endif>{{$data->nama_operator}}</option>
+                      @endforeach
+                    </select>
+                    @error('operator')
+                        <div class="btn-sm btn-danger">{{ $message }}</div>
+                    @enderror
+                  </div>                                 
+  
+                  <div class="form-group">
+                    <label>Jenis Pengujian</label>
+                    <select name="jenis_pengujian" id="jenis_pengujian" class="form-control select2">
+                      <option value="">Pilih Jenis Pengujian</option>
+                        <option value="Uji Berkala" @if($edit->jenis_pengujian=='Uji Berkala') selected @endif>Uji Berkala</option>
+                        <option value="Uji Pertama"  @if($edit->jenis_pengujian=='Uji Pertama') selected @endif>Uji Pertama</option>
+                    </select>
+                    @error('jenis_pengujian')
+                        <div class="btn-sm btn-danger">{{ $message }}</div>
+                    @enderror
+                  </div>   
+                  
+                  <div class="form-group">
+                    <label>Wilayah</label>
+                    <select name="wilayah" id="wilayah" class="form-control select2">
+                      <option value="">Pilih Wilayah</option>
+                        <option value="1" @if($edit->wilayah=='1') selected @endif>Wilayah I</option>
+                        <option value="2" @if($edit->wilayah=='2') selected @endif>Wilayah II</option>
+                    </select>
+                    @error('wilayah')
+                        <div class="btn-sm btn-danger">{{ $message }}</div>
+                    @enderror
+                  </div>  
+
+                  <div class="form-group">
+                    <label>Status Uji</label>
+                      <select name="status_uji" id="status_uji" class="form-control select2">
+                          <option value="">Pilih Status Uji</option>
+                          <option value="1"  @if($edit->status_uji=='1') selected @endif>Lulus</option>
+                          <option value="2" @if($edit->status_uji=='2') selected @endif>Tidak Lulus</option>
+                          <option value="3" @if($edit->status_uji=='3') selected @endif>Pending</option>
+                          <option value="4" @if($edit->status_uji=='4') selected @endif>Belum Diuji</option>
+                      </select>
+                      @error('status_uji')
+                          <div class="btn-sm btn-danger">{{ $message }}</div>
+                      @enderror
+                  </div>
+                </div>
+                </div>              
+
+                <div class="form-group">
+                  <label>Keterangan (optional)</label>
+                  <select name="keterangan" id="keterangan" class="form-control select2">
+                    <option value="">Pilih Keterangan</option>
+                    @foreach ($keterangan as $data)
+                      <option value="{{$data->id_keterangan}}"  @if($edit->keterangan==$data->id_keterangan) selected @endif>{{$data->nama_ket}}</option>
+                    @endforeach
+                  </select>
+                  @error('keterangan')
+                      <div class="btn-sm btn-danger">{{ $message }}</div>
+                  @enderror
+                </div>
+              </div>              
+             
+          </div>
+          <div class="modal-footer justify-content-between">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary" id="submit">Submit</button>
+          </div>
+        </form>
+        </div>
+        <!-- /.modal-content -->
+      </div>
+      <!-- /.modal-dialog -->
+    </div>
+    <!-- /.modal -->
+    @endforeach
+    Route::get('/inputData',[InputDataController::class,'index'])->name('inputdata.index');
+    Route::get('/inputData/create',[InputDataController::class,'create']);
+    Route::post('/inputData/create/store',[InputDataController::class,'store']);
+    Route::get('/inputData/edit/',[InputDataController::class,'edit'])->name('edits');
+    Route::post('/inputData/update',[InputDataController::class,'update'])->name('updates');
+    Route::get('/inputData/delete/{id_uji}',[InputDataController::class,'delete'])->name('delete.ujiSarana');
+    Route::get('/inputData/destroy/{id_uji}',[InputDataController::class,'destroy'])->name('destroy.ujiSarana');
+
+    $data = SaranaDiuji::find($id_uji);
+          $data->identitas = $request->identitas;
+          $data->user = $request->user;
+          $data->jenis_sarana = $request->jenis_sarana;
+          $data->operator = $request->operator;
+          $data->lokasi = $request->lokasi;
+          $data->wilayah = $request->wilayah;
+          $data->jenis_pengujian = $request->jenis_pengujian;
+          $data->tgl_pengujian = $request->tgl_pengujian;
+          $data->status_uji = $request->status_uji;
+          $data->keterangan = $request->keterangan;
+          $data->updated_at = \Carbon\Carbon::now();
+          $query = $data->save();
+
+          if($query){
+              return response()->json(['code'=>1, 'msg'=>'Country Details have Been updated']);
+          }else{
+              return response()->json(['code'=>0, 'msg'=>'Something went wrong']);
+          }
