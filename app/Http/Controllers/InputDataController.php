@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\DB;
 use App\Models\User;
 use Carbon\Carbon;
 use Session;
-use Alert;
+use RealRashid\SweetAlert\Facades\Alert;
 use App;
 use App\Exports\ExportExcel;
 use App\Http\Requests\UpdateUjiRequest;
