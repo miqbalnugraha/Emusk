@@ -265,7 +265,7 @@ class MasterController extends Controller
             ];
             $this->Target->updateTarget($id,$data);
             Alert::success('Success', 'Data Berhasil Diubah');
-            return redirect()->route('master.index');
+            return redirect()->route('master.index')->with('success','data berhasil diubah');
       }
 
       public function truncate(){
