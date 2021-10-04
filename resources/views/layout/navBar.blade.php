@@ -12,7 +12,7 @@
   <!-- Font Awesome -->
   <link rel="stylesheet" href="{{asset('templateLTE')}}/plugins/fontawesome-free/css/all.min.css">
   <!-- SweetAlert2 -->
-  <link rel="stylesheet" href="{{asset('templateLTE')}}/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.11.0/sweetalert2.css" />
   <link rel="stylesheet" href="{{asset('templateLTE')}}/plugins/toastr/toastr.min.css">
   <!-- DataTables 
   
@@ -298,7 +298,7 @@
 <!-- BS-Stepper -->
 <script src="{{asset('templateLTE')}}/plugins/bs-stepper/js/bs-stepper.min.js"></script>
 <!-- SweetAlert2 -->
-<script src="{{asset('templateLTE')}}/plugins/sweetalert2/sweetalert2.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.11.0/sweetalert2.all.min.js"></script>
 <!-- AdminLTE App -->
 <script src="{{asset('templateLTE')}}/dist/js/adminlte.min.js"></script>
 <!-- AdminLTE for demo purposes -->
