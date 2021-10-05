@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Keterangan;
 use App\Models\SaranaDiuji;
-use DB;
+use Illuminate\Support\Facades\DB;
 
 class KeteranganController extends Controller
 {
