@@ -18,8 +18,8 @@ class KeteranganController extends Controller
   public function index(){
     
     $keter=DB::table('keterangan')->orderBy('id_keterangan','asc')->get();
-    $pending=DB::select(DB::raw('select count(*) as total_pending, keterangan from sarana_diuji where status_uji = "3" group by keterangan'));
-    $tidak=DB::select(DB::raw('select count(*) as total_pending, keterangan from sarana_diuji where status_uji = "2" group by keterangan'));    
+    $pending=DB::select(DB::raw('select count(*) as total_pending, keterangan from sarana_diuji where status_uji = 3 group by keterangan'));
+    $tidak=DB::select(DB::raw('select count(*) as total_pending, keterangan from sarana_diuji where status_uji = 2 group by keterangan'));    
     
     $chartData1="";
     $a=0;
