@@ -21,6 +21,7 @@ class UserDataController extends Controller
     $data=[
       'users'=> $this->User->allData(),
     ];
+   // dd($data);
     return view('masterData.user.index', $data);
   }
 

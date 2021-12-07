@@ -11,6 +11,9 @@ use App\Models\Target;
 use App\Models\SaranaDiuji;
 use Illuminate\Support\Facades\Auth;
 use RealRashid\SweetAlert\Facades\Alert;
+use Illuminate\Support\Facades\DB;
+use App\Models\ActivityLog;
+use Illuminate\Support\Carbon;
 
 class MasterController extends Controller
 {
@@ -22,6 +25,7 @@ class MasterController extends Controller
       $this->Lokasi = new Lokasi();
       $this->Operator = new Operator();
       $this->Target = new Target();
+      $this->ActivityLog = new ActivityLog();
     }
 
     public function index(){
@@ -272,5 +276,14 @@ class MasterController extends Controller
         $this->SaranaDiuji->truncate();
         Alert::success('Success', 'Tabel Uji Sarana Berhasil Direset');
         return redirect()->route('master.index');
+      }
+
+      public function dashboard(){
+        $data=[
+          'log'=>$this->ActivityLog->allData()
+        ];
+        
+        //dd($data);
+        return view('masterData.dashboard.index', $data);
       }
 }

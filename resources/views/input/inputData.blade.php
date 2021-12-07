@@ -18,12 +18,11 @@
                     Tambah / Input Data
                   </a><br>
                 </div> 
-                                
               </div>  
+              @if(Auth::user()->level=="Master")
               <br>
               <div class="row">
-                <div class="col-sm-6">                  
-                  @if(Auth::user()->level=="Master")
+                <div class="col-sm-6">  
                   <form class="form" action="{{ route('import') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                      <div class="input-group">
@@ -36,12 +35,13 @@
                        </div>
                      </div>
                    </form>
-                   @endif
+                   
                   </div>   
                   <div class="col-sm-3">
                     <a href="{{ route('format.import') }}" class="btn btn-info btn-rounded btn-fw"> Format Import</a>
-                  </div>        
-              </div> 
+                  </div> 
+              </div>
+              @endif
                 
               <div class="row">
                 <h4><br>Filter :  </h4>
@@ -162,24 +162,9 @@ toastr.options.preventDuplicates = true;
     var table = $('.myTable').DataTable({
         "responsive": true, "autoWidth": false,
         pageLength: 10,
-        lengthChange: false,
+        lengthChange: true,
         processing: true,
         serverSide: true,
-        dom: '<"html5buttons">Blfrtip',
-        language: {
-                buttons: {
-                    colvis : 'show / hide', // label button show / hide
-                    colvisRestore: "Reset Kolom" //lael untuk reset kolom ke default
-                }
-        },
-        
-        buttons : [
-                    {extend: 'colvis', postfixButtons: [ 'colvisRestore' ] },
-                    {extend:'csv', title:'Emusk-Pengujian Sarana'},
-                    {extend: 'pdf', title:'Emusk-Pengujian Sarana'},
-                    {extend: 'excel', title: 'Emusk-Pengujian Sarana'},
-                    {extend:'print',title: 'Emusk-Pengujian Sarana'},
-        ],
         ajax: {
           url: "{{ route('inputData.index') }}",
           data: function(d){
@@ -343,7 +328,7 @@ toastr.options.preventDuplicates = true;
     $('[data-mask]').inputmask()
 
     //Date picker
-    $('#datetimepicker4').datetimepicker({
+    $('#datetimepicker6').datetimepicker({
         format: 'YYYY-MM-DD'
     });
 

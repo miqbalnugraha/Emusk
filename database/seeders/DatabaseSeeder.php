@@ -20,5 +20,7 @@ class DatabaseSeeder extends Seeder
       $this->call(KeteranganTableSeeder::class);
       $this->call(ExcelTableSeeder::class);
       $this->call(TargetTableSeeder::class);
+      $this->call(StatusUjiTableSeeder::class);
+      $this->call(WilayahTableSeeder::class);
     }
 }

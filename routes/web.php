@@ -10,6 +10,7 @@ use App\Http\Controllers\SaranaSudahController;
 use App\Http\Controllers\SaranaBelumController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\ExcelController;
+use Illuminate\Support\Facades\Artisan;
 
 use Illuminate\Support\Facades\Auth;
 /*
@@ -41,6 +42,8 @@ Route::get('/SaranaBelumDiuji/belum-diuji', [SaranaBelumController::class, 'belu
 //keterangan
 Route::get('/Keterangan', [KeteranganController::class, 'index']);
 
+Route::get('/exportAll', [HomeController::class, 'exportAll'])->name('exportAll');
+
 //excel
 Route::get('/Excel', [ExcelController::class, 'index'])->name('excel');
 Route::get('/Excel/downloadSudah/{id}', [ExcelController::class, 'downloadSudah'])->name('excel.downloadSudah'); 
@@ -48,6 +51,27 @@ Route::get('/Excel/downloadSudah/{id}', [ExcelController::class, 'downloadSudah'
     Route::get('/Excel/downloadPending/{id}', [ExcelController::class, 'downloadPending'])->name('excel.downloadPending');    
     Route::get('/Excel/downloadOlah1/{id}', [ExcelController::class, 'downloadOlah1'])->name('excel.downloadOlah1'); 
     Route::get('/Excel/downloadOlah2/{id}', [ExcelController::class, 'downloadOlah2'])->name('excel.downloadOlah2'); 
+//artisan
+    Route::get('/config-cache', function() {
+        $exitCode = Artisan::call('config:cache');
+        return 'DONE'; //Return anything
+    });
+    Route::get('/clear-cache', function() {
+        $exitCode = Artisan::call('cache:clear');
+        return 'DONE'; //Return anything
+    });
+    Route::get('/migrate', function() {
+        $exitCode = Artisan::call('migrate');
+        return 'DONE'; //Return anything
+    });
+    Route::get('/migrate-fresh', function() {
+        $exitCode = Artisan::call('migrate:fresh');
+        return 'DONE'; //Return anything
+    });
+    Route::get('/db-seed', function() {
+        $exitCode = Artisan::call('db:seed');
+        return 'DONE'; //Return anything
+    });
 
 
 Route::middleware(['checkRole:master'])->group(function () {
@@ -86,12 +110,12 @@ Route::middleware(['checkRole:master'])->group(function () {
     Route::post('/Excel/updateBelum/{id}', [ExcelController::class, 'updateBelum'])->name('excel.updateBelum'); 
     Route::post('/Excel/updatePending/{id}', [ExcelController::class, 'updatePending'])->name('excel.updatePending');
     Route::post('/Excel/updateOlah1/{id}', [ExcelController::class, 'updateOlah1'])->name('excel.updateOlah1'); 
-    Route::post('/Excel/updateOlah2/{id}', [ExcelController::class, 'updateOlah2'])->name('excel.updateOlah2'); 
-
-       
+    Route::post('/Excel/updateOlah2/{id}', [ExcelController::class, 'updateOlah2'])->name('excel.updateOlah2');        
     
     Route::post('/inputData/import', [InputDataController::class,'import'])->name('import');
-    Route::get('/inputData/format', [InputDataController::class,'format'])->name('format.import');
+    Route::get('/inputData/format', [InputDataController::class,'format'])->name('format.import'); 
+    
+    Route::get('/masterDashboard', [MasterController::class,'dashboard']);   
 });
 
 Route::middleware(['checkRole:master,admin'])->group(function () {

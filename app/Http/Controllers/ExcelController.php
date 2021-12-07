@@ -34,19 +34,19 @@ class ExcelController extends Controller
 
       public function updateSudah(Request $req, $id)
     {
-         
+
         $validator = Validator::make($req->all(), [
          'file' => 'required|mimes:csv,xlx,xls,xlsx|max:10000',
- 
+
         ],[
             'file.required' => 'Harus diisi!',
             'file.max' => 'Ukuran file tidak boleh melebihi 10Mb'
-        ]); 
+        ]);
         if($validator->fails()){
           Alert::error('Error', 'File gagal diupdate');
           return redirect()->route('excel')->withErrors($validator)->withInput();
         }
-        $ext = $req->file('file')->extension();        
+        $ext = $req->file('file')->extension();
         $path = $req->file('file')->move('files', 'emusk-sarana-sudah-diuji'.'.'.$ext);
 
         try {
@@ -67,19 +67,19 @@ class ExcelController extends Controller
 
       public function updateBelum(Request $req, $id)
     {
-         
+
         $validator = Validator::make($req->all(), [
          'file' => 'required|mimes:csv,xlx,xls,xlsx|max:10000',
- 
+
         ],[
             'file.required' => 'Harus diisi!',
             'file.max' => 'Ukuran file tidak boleh melebihi 10MB'
-        ]); 
+        ]);
         if($validator->fails()){
           Alert::error('Error', 'File gagal diupdate');
           return redirect()->route('excel')->withErrors($validator)->withInput();
         }
-        $ext = $req->file('file')->extension();  
+        $ext = $req->file('file')->extension();
         $path = $req->file('file')->move('files', 'emusk-sarana-belum-diuji'.'.'.$ext);
 
         try {
@@ -100,19 +100,19 @@ class ExcelController extends Controller
 
       public function updatePending(Request $req, $id)
     {
-         
+
         $validator = Validator::make($req->all(), [
          'file' => 'required|mimes:csv,xlx,xls,xlsx|max:10000',
- 
+
         ],[
             'file.required' => 'Harus diisi!',
             'file.max' => 'Ukuran file tidak boleh melebihi 10MB'
-        ]); 
+        ]);
         if($validator->fails()){
           Alert::error('Error', 'File gagal diupdate');
           return redirect()->route('excel')->withErrors($validator)->withInput();
         }
-        $ext = $req->file('file')->extension();  
+        $ext = $req->file('file')->extension();
         $path = $req->file('file')->move('files', 'emusk-sarana-diuji-pending'.'.'.$ext);
 
         try {
@@ -132,19 +132,19 @@ class ExcelController extends Controller
       }
       public function updateOlah1(Request $req, $id)
     {
-         
+
         $validator = Validator::make($req->all(), [
          'file' => 'required|mimes:csv,xlx,xls,xlsx|max:10000',
- 
+
         ],[
             'file.required' => 'Harus diisi!',
             'file.max' => 'Ukuran file tidak boleh melebihi 10MB'
-        ]); 
+        ]);
         if($validator->fails()){
           Alert::error('Error', 'File gagal diupdate');
           return redirect()->route('excel')->withErrors($validator)->withInput();
         }
-        $ext = $req->file('file')->extension();  
+        $ext = $req->file('file')->extension();
         $path = $req->file('file')->move('files', 'emusk-sarana-diuji-olah-data-6-bulan'.'.'.$ext);
 
         try {
@@ -164,19 +164,19 @@ class ExcelController extends Controller
       }
       public function updateOlah2(Request $req, $id)
     {
-         
+
         $validator = Validator::make($req->all(), [
          'file' => 'required|mimes:csv,xlx,xls,xlsx|max:10000',
- 
+
         ],[
             'file.required' => 'Harus diisi!',
             'file.max' => 'Ukuran file tidak boleh melebihi 10MB'
-        ]); 
+        ]);
         if($validator->fails()){
           Alert::error('Error', 'File gagal diupdate');
           return redirect()->route('excel')->withErrors($validator)->withInput();
         }
-        $ext = $req->file('file')->extension();  
+        $ext = $req->file('file')->extension();
         $path = $req->file('file')->move('files', 'emusk-sarana-diuji-olah-data-12-bulan'.'.'.$ext);
 
         try {
@@ -202,8 +202,9 @@ class ExcelController extends Controller
           $exten=$ext2->ext;
         }
 
-        $file = public_path(). '\files\emusk-sarana-sudah-diuji'.'.'.$exten;
+        $file = public_path('/files/emusk-sarana-sudah-diuji').'.'.$exten;
         $headers = ['Content-Type: file/excel'];
+        //dd($file);
 
         if (file_exists($file)) {
             return \Response::download($file, time().'-Sarana Sudah Diuji'.'.'.$exten, $headers);
@@ -211,7 +212,7 @@ class ExcelController extends Controller
           Alert::error('Error', 'File not found');
           return back();
         }
-        //dd($file);
+
       }
 
       public function downloadBelum($id)
@@ -220,7 +221,7 @@ class ExcelController extends Controller
         foreach($ext as $ext2){
           $exten=$ext2->ext;
         }
-        $file = public_path(). '\files\emusk-sarana-belum-diuji'.'.'.$exten;
+        $file = public_path(). '/files/emusk-sarana-belum-diuji'.'.'.$exten;
         $headers = ['Content-Type: file/excel'];
 
         if (file_exists($file)) {
@@ -238,7 +239,7 @@ class ExcelController extends Controller
         foreach($ext as $ext2){
           $exten=$ext2->ext;
         }
-        $file = public_path(). '\files\emusk-sarana-diuji-pending'.'.'.$exten;
+        $file = public_path(). '/files/emusk-sarana-diuji-pending'.'.'.$exten;
         $headers = ['Content-Type: file/excel'];
 
         if (file_exists($file)) {
@@ -255,7 +256,7 @@ class ExcelController extends Controller
         foreach($ext as $ext2){
           $exten=$ext2->ext;
         }
-        $file = public_path(). '\files\emusk-sarana-diuji-olah-data-6-bulan'.'.'.$exten;
+        $file = public_path(). '/files/emusk-sarana-diuji-olah-data-6-bulan'.'.'.$exten;
         $headers = ['Content-Type: file/excel'];
 
         if (file_exists($file)) {
@@ -272,7 +273,7 @@ class ExcelController extends Controller
         foreach($ext as $ext2){
           $exten=$ext2->ext;
         }
-        $file = public_path(). '\files\emusk-sarana-diuji-olah-data-12-bulan'.'.'.$exten;
+        $file = public_path(). '/files/emusk-sarana-diuji-olah-data-12-bulan'.'.'.$exten;
         $headers = ['Content-Type: file/excel'];
 
         if (file_exists($file)) {
@@ -283,5 +284,5 @@ class ExcelController extends Controller
         }
         //dd($file);
       }
-       
+
     }

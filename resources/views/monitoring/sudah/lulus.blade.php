@@ -110,24 +110,9 @@
     var table = $('.yajra-datatable').DataTable({
         "responsive": true, "autoWidth": false,
         pageLength: 10,
-        lengthChange: false,
+        lengthChange: true,
         processing: true,
         serverSide: true,
-        dom: '<"html5buttons">Blfrtip',
-        language: {
-                buttons: {
-                    colvis : 'show / hide', // label button show / hide
-                    colvisRestore: "Reset Kolom" //lael untuk reset kolom ke default
-                }
-        },
-        
-        buttons : [
-                    {extend: 'colvis', postfixButtons: [ 'colvisRestore' ] },
-                    {extend:'csv', title:'Emusk-Pengujian Sarana'},
-                    {extend: 'pdf', title:'Emusk-Pengujian Sarana'},
-                    {extend: 'excel', title: 'Emusk-Pengujian Sarana'},
-                    {extend:'print',title: 'Emusk-Pengujian Sarana'},
-        ],
         ajax: {
           url: "{{ route('lulus.sudahDiuji') }}",
           data: function(d){

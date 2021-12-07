@@ -71,6 +71,20 @@ class KeteranganTableSeeder extends Seeder
                 'created_at'      => \Carbon\Carbon::now(),
                 'updated_at'      => \Carbon\Carbon::now()
               ],
+              [
+                'id_keterangan'  	      => 9,
+                'nama_ket'  	  => 'Dokumen kurang',
+                'status'		  => '1',
+                'created_at'      => \Carbon\Carbon::now(),
+                'updated_at'      => \Carbon\Carbon::now()
+              ],
+              [
+                'id_keterangan'  	      => 10,
+                'nama_ket'  	  => 'Kebisingan di atas standar',
+                'status'		  => '1',
+                'created_at'      => \Carbon\Carbon::now(),
+                'updated_at'      => \Carbon\Carbon::now()
+              ],
             
           ]);
     }

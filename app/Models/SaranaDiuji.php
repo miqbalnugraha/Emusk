@@ -6,10 +6,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class SaranaDiuji extends Model
 { 
-   use HasFactory;
+   use LogsActivity, HasFactory;
     protected $table = 'sarana_diuji';
     protected $fillable = ['identitas', 'user', 'jenis_sarana', 'operator', 'lokasi', 'wilayah', 'jenis_pengujian', 'tgl_pengujian', 'status_uji','keterangan'];
     protected $guarded = array();
@@ -28,6 +29,25 @@ class SaranaDiuji extends Model
     ->leftjoin('users','sarana_diuji.user', '=', 'users.id')
     ->leftjoin('keterangan','sarana_diuji.keterangan', '=', 'keterangan.id_keterangan')
     ->get();
+  }
+
+  public static function getAllData(){
+    $record = DB::table('sarana_diuji')
+    ->leftjoin('jenis_sarana','sarana_diuji.jenis_sarana', '=', 'jenis_sarana.id_sarana')
+    ->leftjoin('operator','sarana_diuji.operator', '=', 'operator.id_operator')
+    ->leftjoin('lokasi','sarana_diuji.lokasi', '=', 'lokasi.id_lokasi')
+    ->leftjoin('users','sarana_diuji.user', '=', 'users.id')
+    ->leftjoin('keterangan','sarana_diuji.keterangan', '=', 'keterangan.id_keterangan')
+    ->leftjoin('wilayah','sarana_diuji.wilayah', '=', 'wilayah.id_wilayah')
+    ->leftjoin('status_uji','sarana_diuji.status_uji', '=', 'status_uji.id_status')
+    ->orderBy('sarana_diuji.tgl_pengujian', 'desc')
+    ->select(['sarana_diuji.identitas','jenis_sarana.nama_sarana','operator.nama_operator',
+            'lokasi.nama_lokasi','wilayah.nama_wilayah','sarana_diuji.jenis_pengujian',
+            'sarana_diuji.tgl_pengujian','status_uji.nama_status','keterangan.nama_ket'])
+    ->get()
+    ->toArray();
+
+    return $record;
   }
 
   public function adminData(){

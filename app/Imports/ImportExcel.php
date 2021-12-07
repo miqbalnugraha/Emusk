@@ -19,6 +19,11 @@ class ImportExcel implements ToModel,SkipsEmptyRows,WithHeadingRow
     */
     public function model(array $row)
     {
+        if (!isset($row['tgl_pengujian'])) {
+            $row['tgl_pengujian']=NULL;
+        }elseif(isset($row['tgl_pengujian'])){
+            $row['tgl_pengujian']=\PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($row['tgl_pengujian']);
+        }
         return new SaranaDiuji([
             'identitas'=> $row['identitas'], 
             'user'=> $row['user'], 
@@ -27,7 +32,7 @@ class ImportExcel implements ToModel,SkipsEmptyRows,WithHeadingRow
             'lokasi'=> $row['lokasi'], 
             'wilayah'=> $row['wilayah'], 
             'jenis_pengujian'=> $row['jenis_pengujian'], 
-            'tgl_pengujian'=> \PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($row['tgl_pengujian']), 
+            'tgl_pengujian'=> $row['tgl_pengujian'], 
             'status_uji'=> $row['status_uji'],
             'keterangan'=> $row['keterangan'],
         ]);

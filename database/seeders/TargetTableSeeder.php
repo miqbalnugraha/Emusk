@@ -18,7 +18,7 @@ class TargetTableSeeder extends Seeder
             [
                 'id'  		=> 1,
                 'nama'  	=> 'Target Per PK',
-                'target'		      => '3000',
+                'target'		      => '7500',
                 'created_at'      => \Carbon\Carbon::now(),
                 'updated_at'      => \Carbon\Carbon::now()
             ],

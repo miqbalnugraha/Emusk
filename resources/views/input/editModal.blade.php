@@ -47,9 +47,9 @@
       
                         <div class="form-group">
                           <label>Tanggal Pengujian</label>
-                            <div class="input-group date" id="datetimepicker4" data-target-input="nearest">
+                            <div class="input-group date" id="datetimepicker6" data-target-input="nearest">
                                 <input name="tgl_pengujian" id="tgl_pengujian" type="text" class="form-control datetimepicker-input @error('tgl_pengujian') is-invalid @enderror" data-target="#datetimepicker4"/>
-                                <div class="input-group-append" data-target="#datetimepicker4" data-toggle="datetimepicker">
+                                <div class="input-group-append" data-target="#datetimepicker6" data-toggle="datetimepicker">
                                     <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                                 </div>
                             </div>

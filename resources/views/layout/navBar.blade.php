@@ -12,7 +12,7 @@
   <!-- Font Awesome -->
   <link rel="stylesheet" href="{{asset('templateLTE')}}/plugins/fontawesome-free/css/all.min.css">
   <!-- SweetAlert2 -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.6.9/sweetalert2.min.css">
+  <link rel="stylesheet" href="{{asset('templateLTE')}}/plugins/sweetalert2/sweetalert2.min.css">
   <link rel="stylesheet" href="{{asset('templateLTE')}}/plugins/toastr/toastr.min.css">
   <!-- DataTables 
   
@@ -164,15 +164,21 @@
                </li>
                @endif
                @if(Auth::user()->level=="Master")
-               <li class="nav-item {{ request()->is('masterData','userData','masterData/*','userData/*') ? 'menu-open' : ''}}">
-                 <a href="#" class="nav-link {{ request()->is('masterData','userData','masterData/*','userData/*') ? 'active' : ''}}">
+               <li class="nav-item {{ request()->is('masterData','userData','masterDashboard','masterData/*','userData/*','masterDashboard/*') ? 'menu-open' : ''}}">
+                 <a href="#" class="nav-link {{ request()->is('masterData','userData','masterDashboard','masterData/*','userData/*','masterDashboard/*') ? 'active' : ''}}">
                    <i class="nav-icon fas fa-atom"></i>
                    <p>
-                     Master Data
+                     Master Menu
                      <i class="right fas fa-angle-left"></i>
                    </p>
                  </a>
                  <ul class="nav nav-treeview">
+                  <li class="nav-item">
+                    <a href="/masterDashboard" class="nav-link {{ request()->is('masterDashboard','masterDashboard/*') ? 'active' : ''}}">
+                      <i class="fas fa-chart-bar nav-icon"></i>
+                      <p>Master Dashboard</p>
+                    </a>
+                  </li>
                    <li class="nav-item">
                      <a href="/masterData" class="nav-link {{ request()->is('masterData','masterData/') ? 'active' : ''}}">
                        <i class="fas fa-cogs nav-icon"></i>
@@ -184,8 +190,7 @@
                        <i class="fas fa-users nav-icon"></i>
                        <p>Data User</p>
                      </a>
-                   </li>
-                   </li>
+                   </li>                   
                  </ul>
                </li>
                @endif
@@ -298,7 +303,7 @@
 <!-- BS-Stepper -->
 <script src="{{asset('templateLTE')}}/plugins/bs-stepper/js/bs-stepper.min.js"></script>
 <!-- SweetAlert2 -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.6.9/sweetalert2.min.js"></script>
+<script src="{{asset('templateLTE')}}/plugins/sweetalert2/sweetalert2.min.js"></script>
 <!-- AdminLTE App -->
 <script src="{{asset('templateLTE')}}/dist/js/adminlte.min.js"></script>
 <!-- AdminLTE for demo purposes -->

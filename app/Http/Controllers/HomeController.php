@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\ExportExcel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use RealRashid\SweetAlert\Facades\Alert;
@@ -14,6 +15,7 @@ use App\Models\Lokasi;
 use App\Models\Operator;
 use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Facades\DataTables;
+use Maatwebsite\Excel\Facades\Excel; 
 
 class HomeController extends Controller
 {
@@ -139,6 +141,10 @@ class HomeController extends Controller
 
         return view('index')->with($data);
     }
+
+        public function exportAll(){
+            return Excel::download(new ExportExcel,'EMUSK - Pengujian Sarana KA.xlsx');
+        }
 
     public function logout(Request $request)
     {

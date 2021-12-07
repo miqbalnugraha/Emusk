@@ -94,7 +94,7 @@
               <div class="row">
                 <div class="col-lg-12 mx-auto">
                   <!-- small card -->
-                  <div class="small-box bg-teal">
+                  <div class="small-box bg-olive">
                     <div class="inner">                      
                       <strong><span style="font-size: 40px;">{{ $kinerja }} </span></strong> <span style="font-size: 15px;"> / {{ $pk->target }}</span>
                       <span><br>Kinerja<br></span>                      
@@ -111,25 +111,44 @@
                 <?php $sisa=$pk->target-$kinerja ?>
                       <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
                       <script type="text/javascript">
-                        google.charts.load('current', {'packages':['corechart']});
+                        google.charts.load('current', {'packages':['bar','corechart']});
+                        google.charts.setOnLoadCallback(drawChartBar);
                         google.charts.setOnLoadCallback(drawChart);
+                        function drawChartBar() {
+                          var data = google.visualization.arrayToDataTable([
+                            ['Kinerja', 'Sudah Diuji','Target PK'],
+                            ['Realisasi',     <?php echo $kinerja ?>, <?php echo $pk->target ?>]
+                          ]);
+                          var options = {
+                            width: 500,
+                            chart: {                              
+                              title: 'Kinerja Tahun 20<?php echo date('y') ?>',
+                              subtitle: 'Seksi Pengujian Sarana Perkeretaapian',
+                            },
+                            bars: 'vertical',
+                            vAxis: {format: 'decimal'},
+                            height: 600,
+                            colors: ['#1b9e77', '#d95f02', '#7570b3']
+                          };
+                          var chart = new google.charts.Bar(document.getElementById('piechart'));
+                          chart.draw(data, google.charts.Bar.convertOptions(options));
+                        }
                         function drawChart() {
                           var data = google.visualization.arrayToDataTable([
                             ['Task', 'Hours per Day'],
-                            ['Sudah Diuji',     <?php echo $kinerja ?>],
-                            ['Sisa',     <?php echo $sisa ?>]
+                            ['Sudah Diuji',     <?php echo $sudah ?>],
+                            ['Belum Diuji',     <?php echo $belum ?>],
                           ]);
                           var options = {
                             chartArea:{left:10,top:20,width:"50%",height:"60%"},
                             backgroundColor: 'transparent',
                             'legend': {'position': 'bottom'},
-                            colors: ['#3d9970','#ff851b']
                           };
-                          var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+                          var chart = new google.visualization.PieChart(document.getElementById('piechart2'));
                           chart.draw(data, options);
                         }
                       </script>
-                      <div id="piechart" style="width: 900px; height: 500px;"></div>
+                      <div id="piechart" style="width: 900px; height: 668px;"></div>
                   </div>
             </div>
             <!-- /.card-body -->
@@ -147,6 +166,21 @@
             </div>
             <!-- /.card-header -->
             <div class="card-body">
+              <div class="row">
+                <div class="col-lg-12">
+                  <!-- small card -->
+                  <div class="small-box bg-success">
+                    <div class="inner">
+                      <strong><span style="font-size: 40px;">{{ $kinerja }} </span></strong> <span style="font-size: 15px;"> / {{ $penugasan }}</span>
+                      <span><br>Realisasi<br></span>
+                      <strong><span style="text-align:center;font-size: 30px">@if($penugasan!=0){{ number_format($kinerja/$penugasan*100,1) }} % @else 0 @endif </span></strong>
+                    </div>
+                    <div class="icon">
+                      <i class="fas fa-check"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
               <div class="row">
                 <div class="col-lg-6">
                   <!-- small card -->
@@ -177,25 +211,6 @@
               </div>
 
               <div class="col-md-6">
-                      <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-                      <script type="text/javascript">
-                        google.charts.load('current', {'packages':['corechart']});
-                        google.charts.setOnLoadCallback(drawChart);
-                        function drawChart() {
-                          var data = google.visualization.arrayToDataTable([
-                            ['Task', 'Hours per Day'],
-                            ['Sudah Diuji',     <?php echo $sudah ?>],
-                            ['Belum Diuji',     <?php echo $belum ?>],
-                          ]);
-                          var options = {
-                            chartArea:{left:10,top:20,width:"50%",height:"60%"},
-                            backgroundColor: 'transparent',
-                            'legend': {'position': 'bottom'},
-                          };
-                          var chart = new google.visualization.PieChart(document.getElementById('piechart2'));
-                          chart.draw(data, options);
-                        }
-                      </script>
                       <div id="piechart2" style="width: 900px; height: 500px;"></div>
                   </div>
             </div>
@@ -292,6 +307,13 @@
                     <a  class="btn btn-warning btn-rounded btn-fw" id="btn-reset"> Reset Tabel</a>
                 </div> 
             </div>
+            <br>
+            <h4>Export Tabel Pengujian Sarana :  </h4>
+            <div class="row"> 
+                <div class="col-sm-3">
+                    <a  class="btn btn-success btn-rounded btn-fw" href="{{ route('exportAll') }}"> Export Tabel</a>
+                </div> 
+            </div>
           </div>
 
             <!-- /.card-header -->
@@ -332,24 +354,9 @@
     var table = $('.yajra-datatable').DataTable({
         "responsive": true, "autoWidth": false,
         pageLength: 10,
-        lengthChange: false,
+        lengthChange: true,
         processing: true,
-        serverSide: true,
-        dom: '<"html5buttons">Blfrtip',
-        language: {
-                buttons: {
-                    colvis : 'show / hide', // label button show / hide
-                    colvisRestore: "Reset Kolom" //lael untuk reset kolom ke default
-                }
-        },
-        
-        buttons : [
-                    {extend: 'colvis', postfixButtons: [ 'colvisRestore' ] },
-                    {extend:'csv', title:'Emusk-Pengujian Sarana'},
-                    {extend: 'pdf', title:'Emusk-Pengujian Sarana'},
-                    {extend: 'excel', title: 'Emusk-Pengujian Sarana'},
-                    {extend:'print',title: 'Emusk-Pengujian Sarana'},
-        ],
+        serverSide: true,        
         ajax: {
           url: "{{ route('home') }}",
           data: function(d){
